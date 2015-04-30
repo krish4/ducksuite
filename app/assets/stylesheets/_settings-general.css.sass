@@ -1,0 +1,43 @@
+.center
+  text-align: center
+
+.main-content
+  &.settings
+    margin: 10px auto 100px
+    width: 420px
+
+    .heading
+      margin: 20px 15px 5px
+
+      a
+        text-decoration: none
+        color: $darkGrey
+
+        &:hover
+          color: $lightGrey
+
+    .white-box
+      background-color: #fff
+      padding: 15px 10px 10px
+
+      label
+        display: block
+        font-size: 13px
+        color: $lightGrey
+        padding-bottom: 8px
+        margin-left: 5px
+
+      input:not([type="submit"])
+        margin-bottom: 15px
+        margin-left: 5px
+        padding: 16px 12px
+        font-size: 13px
+        background-color: $veryLightGrey
+        border: 1px solid $lightGrey
+        width: 362px
+
+  &.general
+    button.green-button-save
+      width: 100%
+      margin-top: 25px
+      @include green-button

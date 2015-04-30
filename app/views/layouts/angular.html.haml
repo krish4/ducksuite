@@ -1,0 +1,32 @@
+!!! 5
+%html{"ng-app" => "DucksuiteApp"}
+  %head
+    %meta{:charset => "UTF-8"}/
+    %title Ducksuite
+    = stylesheet_link_tag    "application", media: "all"
+    = stylesheet_link_tag    "application", 'http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,800,700,600,300&subset=latin,latin-ext'
+    = javascript_include_tag "https://maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry,places"
+    = javascript_include_tag "application"
+    = include_gon
+    = csrf_meta_tags
+
+  %body
+    %header
+      .header-content
+        #logo= link_to image_tag("logo.png"), root_path
+        %nav
+          %ul
+            - unless current_user.closed_at
+              %li.float-shadow= link_to "DASHBOARD", root_path
+              - if current_user.is_admin?
+                %li.float-shadow= link_to "USERS", "/users"
+              %li.float-shadow= link_to "MY ALBUMS", "/albums"
+              %li.float-shadow= link_to image_tag("icon-settings.png"), "/settings"
+            %li.float-shadow= link_to image_tag("icon-log-out.png"), destroy_user_session_path, :method => :delete
+    
+    - if current_user.closed_at
+      .closed-account-notification 
+        %i.fa.fa-times-circle
+        %p We are sorry, but your account has been closed. Please contact the administrator for more information.
+    - else
+      = yield

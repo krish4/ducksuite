@@ -1,0 +1,52 @@
+.topbar
+  .breadcrumb USERS
+  .topnav
+    .settings-button{"ng-click" => "goToCreateUser()", "ng-class" => "{active: currentTab == 'create'}" } Create a user account
+    .settings-button{"ng-click" => "changeTab('users')", "ng-class" => "{active: currentTab == 'users'}" } List all the users
+
+%div{"data-flash-message" => ""}
+.main-content.users
+
+  %div{"ng-show" => "currentTab == 'users'"}
+    %table
+      %tr
+        %th id
+        %th name
+        %th email
+        %th brand
+        %th{colspan: 2} options
+      %tr.user{"ng-repeat" => "user in users | orderBy: 'id'"}
+        %td.user-id {{ user.id }}
+        %td.user-name {{ user.name }}
+        %td.user-email {{ user.email }}
+        %td.user-brand {{ user.brand || '-' }}
+        %td.user-account-options
+          .close-account{ "ng-hide" => "user.closed_at", "ng-click" => "closeAccount(user)" } close
+          .open-account{ "ng-show" => "user.closed_at", "ng-click" => "openAccount(user)" } open
+        %td.user-edit{ "ng-click" => "goToEditUser(user)" } edit
+
+  %form{name: "editUserForm", "ng-show" => "currentTab == 'edit'", novalidate: true, "ng-submit" => "editUserForm.$valid && editUser(current_user)"}
+    .heading Edit user
+    .white-box
+      %label Name
+      %input{:type => "text", "ng-model" => "current_user.name", required: true}/
+      %label E-mail
+      %input{:type => "text", "ng-model" => "current_user.email", required: true}/
+      %label Brand Name
+      %input{:type => "text", "ng-model" => "current_user.brand", required: false}/
+    %button.green-button-save SAVE CHANGES
+    .come-back{ "ng-click" => "changeTab('users')"} ↫ Come back
+
+  %form{name: "createUserForm", "ng-show" => "currentTab == 'create'", novalidate: true, "ng-submit" => "createUserForm.$valid && createUser(current_user)"}
+    .heading Create a user account
+    .white-box
+      %label Name
+      %input{:type => "text", "ng-model" => "current_user.name", required: true}/
+      %label E-mail
+      %input{:type => "text", "ng-model" => "current_user.email", required: true}/
+      %label Brand Name
+      %input{:type => "text", "ng-model" => "current_user.brand", required: false}/
+      %label Password
+      %input{:type => "password", "ng-model" => "current_user.password", required: false}/
+    %button.green-button-save SAVE CHANGES
+    .come-back{ "ng-click" => "changeTab('users')"} ↫ Come back

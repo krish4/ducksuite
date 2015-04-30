@@ -1,0 +1,14 @@
+deployment:
+  production:
+    branch: master
+    commands:
+      - bundle exec cap production deploy
+  staging:
+    branch: staging
+    commands:
+      - heroku maintenance:on --app ducksuite-staging
+      - heroku scale worker=0 --app ducksuite-staging
+      - git push git@heroku.com:ducksuite-staging.git $CIRCLE_SHA1:refs/heads/master --force
+      - heroku run rake db:migrate --app ducksuite-staging
+      - heroku scale worker=1 --app ducksuite-staging
+      - heroku maintenance:off --app ducksuite-staging

@@ -1,0 +1,184 @@
+.topnav
+  
+  a.normal
+    display: inline-block
+    font-size: 16px
+    font-weight: bold
+    height: 52px
+    line-height: 52px
+    margin-top: -2px
+    margin-right: 10px
+    width: 210px
+    text-decoration: none
+    background-color: #fff
+    border: 1px solid $lightGrey
+    position: relative
+    color: $darkGrey
+    text-align: center
+
+    &:hover
+      background-color: $veryLightGrey     
+
+  button.red,
+  button.green
+    margin-top: -2px
+    background: transparent
+    border: none
+    color: #fff
+    font-size: 16px
+    font-weight: bold
+    height: 53px
+    line-height: 53px
+    margin-right: 10px
+    width: 210px
+
+  button
+
+    &.green
+      background-color: $lightGreen
+
+      &:hover
+        background-color: $darkGreen
+    
+    &.red
+      background-color: $veryLightRed
+
+      &:hover
+        background-color: $lightRed
+
+
+.main-content.inbox
+
+  .album-pictures-box
+
+    .new-pictures-info
+      height: 35px
+      line-height: 35px
+      margin-bottom: 20px
+      text-align: center
+      background-color: white
+      font-size: 13px
+      cursor: pointer
+      transition: all .3s ease
+
+    .new-pictures-info:hover
+      background-color: #424242
+      color: white
+
+    .looking-for-new-pictures > .spinner
+      margin-top: 45px
+      margin-bottom: 55px
+
+    .notification-msg
+      text-align: center
+      margin-top: 80px
+      font-weight: 600
+      color: black
+
+  .pictures
+    overflow: auto
+
+    &:after
+      clear: both
+
+  .picture-box
+    position: relative
+
+    .picture-overlay
+      width: 200px
+      height: 250px
+      position: absolute
+      top: 0
+      left: 0
+      background-color: rgba(0,0,0,.8)
+      z-index: 10
+
+      p
+        position: relative
+        top: 155px
+        text-align: center
+        font-weight: bold
+
+        &.error
+          color: white
+          line-height: 1.3em
+          background-color: $darkRed
+          font-style: italic
+          padding: 20px 0
+          position: absolute
+          top: 0
+
+      .accepted-overlay
+        position: relative
+
+        .accepted-icon
+          text-align: center
+          @include sprite-image("sprite-ducksuite.png", 56px, 42px, -1px, -129px)
+          position: absolute
+          left: 72px
+          top: 100px
+
+        p 
+          color: $lightGreen
+
+      .denied-overlay
+        position: relative
+
+        .denied-icon
+          text-align: center
+          @include sprite-image("sprite-ducksuite.png", 48px, 39px, -59px, -132px)
+          position: absolute
+          left: 76px
+          top: 100px
+
+        p 
+          color: $lightRed
+
+    .picture
+      width: 200px
+      height: 200px
+      position: relative
+
+      img
+        width: 200px
+        height: 200px
+        cursor: pointer
+
+      .new-picture-mark
+        position: absolute
+        top: 0
+        right: 0
+
+        img
+          width: 79px
+          height: 80px
+
+  .option
+    &.picture-accept,
+    &.picture-deny
+      cursor: pointer
+      width: 75px
+      height: 50px
+      background-color: #fff
+      text-align: center
+
+      img
+        margin-top: 13px
+
+      p 
+        margin-top: 4px
+        font-weight: bold
+        font-size: 12px
+
+    &.picture-accept
+      left: 50px
+
+      p
+        color: $lightGreen
+
+    &.picture-deny
+      right: 0
+      border-left: 1px solid $veryLightGrey
+      
+      p 
+        color: $lightRed

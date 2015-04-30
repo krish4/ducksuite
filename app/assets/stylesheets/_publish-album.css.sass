@@ -1,0 +1,119 @@
+#publish-album
+  color: $darkGrey
+  font-size: 15px
+  display: none
+
+  .top-box,
+  .bottom-box
+    width: 1130px
+    padding: 30px 25px
+    background-color: #fff
+
+  .top-box
+    border-bottom: 1px solid #d4d4d4
+    overflow: auto
+    padding-bottom: 10px
+
+    .title
+      margin-bottom: 30px
+      font-weight: 600
+
+    .publish-options
+      margin-top: 30px
+      margin-bottom: 30px
+      overflow: auto
+
+      figure
+        cursor: pointer
+        text-align: center
+        float: left
+        margin: 1px
+        margin-left: 59px
+        padding-top: 10px
+        width: 200px
+
+        &:first-child
+          margin-left: 65px
+
+        &:hover,
+        &.selectedFigure
+          background-color: #f5f6f8
+          border: 1px solid #d4d4d4
+          margin: 0
+          margin-left: 58px
+          border-radius: 5px
+
+          &:first-child
+            margin-left: 64px
+
+        .preview
+          width: 200px
+          height: 120px
+
+          &.gallery img
+            position: relative
+            top: 20px
+
+          &.slideshow img
+            position: relative
+            top: 42px
+
+          &.slideshow img
+            position: relative
+            top: 42px
+
+          &.facebook-album img
+            position: relative
+            top: 5px
+
+
+        figcaption
+          line-height: 50px
+          font-weight: 700
+
+  .bottom-box
+
+    .code-snippet
+      border: 1px solid #d4d4d4
+      background-color: #f5f6f8
+      padding: 20px
+      margin: 20px 0 10px
+
+      code
+        font-size: 14px
+        line-height: 18px
+
+    .buttons
+      text-align: center
+
+      .orange-button
+        @include orange-button
+
+      .green-button
+        @include green-button
+
+      .button
+        width: 150px
+        text-align: center
+        font-size: 16px
+        display: inline-block
+        padding: 16px
+        margin: 20px 2px 10px
+        cursor: pointer
+        font-weight: 700
+
+        .copy-icon
+          position: relative
+          top: 2px
+          margin-top: -2px
+          left: 5px
+
+      .normal-button
+        padding: 17px 16px
+        border: 1px solid #d4d4d4
+        width: 148px
+        position: relative
+        top: 2px
+
+        &:hover
+          background-color: #f5f6f8

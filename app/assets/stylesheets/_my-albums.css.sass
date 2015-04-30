@@ -1,0 +1,139 @@
+.main-content
+  overflow: hidden
+  
+  .single-album-box
+    width: 370px
+    display: inline-block
+    margin-left: 35px
+    margin-bottom: 30px
+
+    &:nth-child(3n+1)
+      margin-left: 0px 
+
+    .header
+      width: 100%
+      overflow: hidden
+      height: 50px
+      line-height: 50px
+      background-color: #fff
+
+      p
+        display: inline-block
+        margin-left: 15px
+        max-width: 255px
+
+      a.remove-album
+        text-decoration: none
+
+      .settings,
+      .remove-album
+        font-size: 10px
+        color: #777
+        float: right
+        margin-right: 15px
+        cursor: pointer
+
+        &:hover
+          color: $lightGrey
+
+        .settings-icon
+          @include sprite-image("sprite-ducksuite.png", 13px, 12px, 0, -38px)
+          display: inline-block
+          position: relative
+          left: 5px
+          top: 2px
+          margin-top: -2px
+
+    .album-menu
+
+      a, .pic-info, .published
+        float: left
+        width: 180px
+        height: 50px
+        line-height: 50px
+        text-align: center
+        text-decoration: none
+        background-color: #fff
+        margin-top: 10px
+        font-size: 16px
+        font-weight: 700
+
+      a.view-album, a.view-new
+        margin-left: 10px
+
+      a .rectangular-btn
+        -webkit-transition: .2s all linear
+        transition: .2s all linear
+        color: #000
+
+        &:hover
+          background-color: $lightBlack
+          color: white
+
+        &.orangebg
+          background-color: $lightOrange
+          color: #fff
+
+          &:hover
+            background-color: $lightBlack
+
+      .published
+        background-color: $lightGreen
+        color: #fff
+        cursor: auto
+
+        p
+          margin-left: 15px
+          font-weight: 400
+
+        .published-icon
+          @include sprite-image("sprite-ducksuite.png", 15px, 16px, -37px, -20px)
+          position: relative
+          top: 31px
+          left: 35px
+          margin-top: -16px
+
+      .pic-info
+        display: table
+        text-align: center
+        font-weight: 400
+
+        .normal-box-number
+          display: table-cell
+
+        .orange-box-number
+          display: table-cell
+          width: 90px
+          background-color: $lightOrange
+          color: #fff
+
+          p
+            position: relative
+            top: -4px
+
+          &:after
+            content: "new"
+            display: block
+            font-size: 10px
+            position: relative
+            top: 9px
+            margin-top: -50px
+
+    .pictures
+      width: 370px
+      height: 370px
+
+      .no-pictures img
+        border: 1px solid #fff
+
+      .one-picture img
+        width: 370px
+        height: 370px
+
+      .multiple-pictures
+        overflow: auto
+        
+        img
+          float: left
+          width: 185px
+          height: 185px

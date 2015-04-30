@@ -1,0 +1,202 @@
+#single-picture-modal
+  background-color: #fff
+  width: 1113px
+  height: 612px
+  display: block
+  overflow: hidden
+
+  .picture
+    display: inline-block
+    float: left
+    height: 612px
+    width: 612px
+
+    img 
+      width: 612px
+      height: 612px
+
+  .details
+    width: 500px
+    display: inline-block
+    vertical-align: top
+    float: right
+    position: relative
+    height: 100%
+    border-left: 1px solid $lightGrey
+
+    .content-box
+      position: absolute
+      height: 547px
+      bottom: 65px
+      left: 0
+      width: 100%
+
+      .top-info-box
+        height: 35%
+        position: relative
+
+        .info-box
+          position: relative
+          margin-bottom: 20px
+
+          .author-image
+            display: inline-block
+            margin-top: 20px
+            margin-left: 22px
+            width: 58px
+
+            img
+              width: 50px
+              height: 50px
+
+          .image-info
+            position: absolute
+            top: 0
+            left: 80px
+
+            p
+              font-size: 13px
+
+              &.author-name 
+                margin-top: 18px
+                font-size: 16px
+             
+                a
+                  text-decoration: none
+                  color: $lightOrange
+                  font-weight: bold
+
+              &.uploaded-date
+                color: $lightGrey
+                line-height: 25px
+
+              &.description
+                color: $darkGrey
+                margin-top: 6px
+                max-width: 406px
+                line-height: 16px
+                overflow-y: auto
+                max-height: 50px
+                height: 50px
+                padding-right: 10px
+                word-wrap: break-word
+
+          .image-stats
+            position: absolute
+            top: 25px
+            right: 15px
+            text-align: center
+
+            & > div
+              display: inline-block
+              margin-right: 10px
+
+              p
+                font-size: 11px
+                color: $darkGrey
+                
+                &.bold
+                  font-size: 14px
+
+        .likes-box
+          height: 68px
+          line-height: 68px
+          background-color: $veryLightGrey
+          bottom: 0
+          position: absolute
+          width: 100%
+
+          .icon
+            width: 80px
+            float: left
+            height: inherit
+            display: inline-block
+
+            img
+              float: right
+              margin-right: 25px
+              margin-top: 29px
+
+          .content
+            overflow: hidden
+            display: inline-block
+
+            p
+              line-height: 18px
+              color: $darkGrey
+              font-size: 13px
+              display: inline-block
+              vertical-align: middle
+              max-width: 400px
+
+              span.bold
+                display: inline-block
+
+      .comments-box
+        display: block
+        border-spacing: 0 20px
+        overflow-y: scroll
+        height: 65%
+
+        .comment
+          display: table-row
+
+          .icon
+            width: 80px
+            float: left
+            display: inline-block
+
+            img
+              float: right
+              margin-right: 18px
+              width: 40px
+              height: 40px
+
+          .content
+            overflow: hidden
+            display: inline-block
+
+            p
+              line-height: 15px
+              color: $darkGrey
+              font-size: 13px
+              max-width: 390px
+              word-wrap: break-word
+
+              &.author-name
+                font-weight: bold
+                margin-bottom: 5px
+
+    .leave-comment
+      height: 65px
+      background-color: $veryLightGrey
+      position: absolute
+      bottom: 0
+      left: 0
+      right: 0
+
+      .icon
+        width: 70px
+        text-align: center
+        display: inline-block
+        position: relative
+        top: -24px
+        left: 2px
+
+      .content
+        overflow: hidden
+        display: inline-block
+        line-height: 65px
+      
+        p
+          font-size: 13px
+          position: relative
+          top: 2px
+          
+          a 
+            text-decoration: none
+            color: $darkGrey
+            font-weight: bold
+
+            &:hover
+              color: $lightGrey

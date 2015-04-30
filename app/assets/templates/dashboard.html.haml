@@ -1,0 +1,150 @@
+.topbar
+  .breadcrumb DASHBOARD
+  .topnav
+    %button.new-album-btn.fancybox{href: '#save-album-modal', "ng-click" => "setDefaultValuesForAlbum()"} 
+      = image_tag("icon-new-album.png", class: "icon")
+      Create New Album
+
+.main-content
+  .welcome-box{"ng-if" => "albumsNumber == 0"}
+    .welcome-box--text
+      %h2 Welcome to DUCKSUITE
+      %h3 We are happy to have you on board!
+    .welcome-box--duck
+      = image_tag("empty-state-dashboard-duck.png")
+      %h3 Create your first album
+    .welcome-box--arrow= image_tag("empty-state-dashboard-arrow.png")
+  .dashboard-info-box{"ng-if" => "albumsNumber > 0"}
+    .heading {{ displayBrandName() | uppercase }}
+    .info-box
+      .info-box-cell{"ng-switch" => "showTotalPicturesSpinner()"}
+        %spinner{"ng-switch-when" => "true"}
+        %div{"ng-switch-when" => "false"}
+          .info-box-pic.left
+          %p.big-number {{ totalPictures }}
+          %p Photos in albums
+      .info-box-cell{"ng-switch" => "showNewPicturesSpinner()"}
+        %spinner{"ng-switch-when" => "true"}
+        %div{"ng-switch-when" => "false"}
+          .info-box-pic.right
+          %p.big-number {{ newPicturesCount }}
+          %p New photos
+  .dashboard-notifications-box{"ng-if" => "albumsNumber > 0"}
+    .heading NOTIFICATIONS
+    
+    .no-notifications{"ng-hide" => "showNotifications()"} 
+      = image_tag("icon-thunder.png")
+      %p.light-bold No new notifications
+      %p= link_to "Browse your albums", "/albums"
+
+    .notifications-boxes{"ng-show" => "showNotifications()"} 
+      %spinner{"ng-if" => "showNotificationsSpinner()"}
+
+      .single-notification-box{"ng-hide" => "showNotificationsSpinner()", "ng-repeat" => "notification in notifications | orderBy: sortNotificationByDate:true"}
+        .heading-bar 
+          %p {{ notification[0] }}
+        .row{"ng-repeat" => "dailyNotification in notification[1]"}
+          .content
+            .cell
+              .photo-icon
+            .cell 
+              %p 
+                %span.bold {{ dailyNotification.unseen_pictures_number }} new photos
+                %span.grey submitted to: 
+                %span.bold
+                  %a{"ng-href" => "{{ 'albums/' + dailyNotification.album_id }}"} {{ dailyNotification.album_title }}
+              %p.bold
+                %a.orange{"ng-href" => "{{ 'albums/' + dailyNotification.album_id + '/inbox' }}"} View in inbox
+            .cell.photos
+              %img{"ng-repeat" => "picture in getRecentPictures(dailyNotification.album_id)", "ng-src" => "{{picture.images.thumbnail.url}}" }
+
+-# Create new album - modal box content
+.modal-box-content
+  #connect-to-instagram-modal
+    .stripe-title 
+      %p Connect your account with Instagram
+    .info{"ng-if" => "!isInstagramAuth"}
+      %p
+        = image_tag("icon-instagram.png", class: "icon")
+        To fully unlock the possibilities of the software,
+        %br
+        please authenticate your account with Instagram.   
+
+    .social-button
+      %a{"ng-href" => "{{ connectToInstagramURL }}", "ng-hide" => "isInstagramAuth"} AUTHENTICATE WITH INSTAGRAM
+      %p.green{"ng-show" => "isInstagramAuth"} Thank you! You have successfully connected your account with Instagram!
+
+    .options
+      %a{"ng-hide" => "isInstagramAuth", :href => "#", "ng-click" => "closeWindow()"} Skip this step
+      %a{"ng-if" => "isInstagramAuth", :href => "#", "ng-click" => "closeWindow()"} Close
+      %a.settings-link{"ng-if" => "isInstagramAuth", :href => "#", "ng-click" => "goToSettings()"} Go to the settings
+
+
+  #save-album-modal.album-modal{"ng-controller" => "CreateAlbumCtrl"}
+    .white-box
+      %form{name: "createNewAlbumForm", novalidate: true}
+        .stripe-title 
+          %p Create New Album
+        %label Title
+        %input{:type => "text", "ng-model" => "album.title", required: true}/
+        .single-input
+          .input-symbol-box #
+          %label Add hashtags
+          %input.with-symbol{:type => "text", "ng-model" => "hashtag", "ng-enter" => "addHashtag(hashtag)"}/
+          .orange-button{"ng-click" => "addHashtag(hashtag)"}
+            %p ADD
+
+        .hashtags
+          .hashtag{"ng-repeat" => "hashtag in album.hashtags"}
+            %p # {{ hashtag }}
+            .remove-hashtag{"ng-click" => "removeHashtag(hashtag)"} x
+
+        %p.fetching-pictures-info{"ng-show" => "album.hashtags.length > 1"}
+          Please notice, that only pictures with all provided hashtags will be fetched.
+        
+        .stripe-title.greybg 
+          %p Filters
+          .open-close{"ng-click" => "changeFiltersVisibility()", "ng-switch" => "areFiltersVisible"}
+            .option{"ng-switch-when" => "false"}
+              %p Open
+              .arrow.open
+            .option{"ng-switch-when" => "true"}
+              %p Close
+              .arrow.close
+
+        -# ng-if is really needed here, read more below.
+        .filters-box{"ng-if" => "areFiltersVisible"}
+          %label{:for => "location"} Location
+          %input{:type => "text", name: "location", "ng-autocomplete" => true, "ng-model" => "album.location_attributes.name", "ng-change" => "geocodeAddress()"}/
+
+          .single-input.radius{"ng-show" => "album.location_attributes.name"}
+            %label{:for => "radius"} Radius
+            %input.with-symbol{:type => "number", name: "radius", min: "0", step: "200", "ng-model" => "map.circle.radius"}/
+            .input-symbol-box
+              %p meters
+
+          -# ng-if is really needed here. Google Map does not render properly being within hidden div.
+          %div.location-map{"ng-if" => "album.location_attributes.name", "google-map" => true, center: "map.center", zoom: "map.zoom", draggable: "{{ map.draggable }}", pan: "true", control: "map.control", options: "map.options"}
+            %circle{center: "map.circle.center", radius: "map.circle.radius", fill: "map.circle.fill", stroke: "map.circle.stroke", draggable: "map.circle.draggable", editable: "map.circle.editable", visible: "map.circle.visible", events: "map.circle.events"}
+
+          .single-inputs
+            .single-input.number-input
+              .input-symbol-box
+                %p min
+              %label Number of followers
+              %input.with-symbol{:type => "text", "ng-model" => "album.min_followers_number"}/
+
+            .single-input.number-input
+              .input-symbol-box
+                %p min
+              %label Number of likes
+              %input.with-symbol{:type => "text", "ng-model" => "album.min_likes_number"}/
+
+            .single-input.number-input
+              .input-symbol-box
+                %p min
+              %label Number of comments
+              %input.with-symbol{:type => "text", "ng-model" => "album.min_comments_number"}/
+
+        .center
+          %button.green-button{type: "button", "ng-click" => "createAlbum(createNewAlbumForm)"} CREATE ALBUM

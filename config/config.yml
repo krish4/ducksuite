@@ -1,0 +1,12 @@
+defaults: &defaults
+  max_pictures_per_request: 33
+  max_consecutive_requests: 1
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

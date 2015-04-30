@@ -1,0 +1,73 @@
+#ds-widget {
+  padding: 20px !important;
+}
+
+#ds-widget #main-div {
+  display: inline-block !important; 
+  text-align: center !important;
+  vertical-align: top !important; 
+  width: 50% !important; 
+}
+
+#ds-widget #main-div #main-image {
+  border: 10px solid white !important;
+  height: 400px !important; 
+  width: 400px !important; 
+}
+
+#ds-widget #right {
+  display: inline-block !important;
+  width: 50% !important; 
+  position: relative !important;
+}
+
+#ds-widget #right #slider {
+  margin: 45px 64px !important;
+}
+
+#ds-widget #right .arrow {
+  cursor: pointer !important; 
+  height: 64px !important; 
+  width: 64px !important; 
+  position: absolute !important;
+  top: 178px !important;
+  transition: .3s opacity ease !important;
+  -webkit-transition: .3s opacity ease !important;
+  -moz-transition: .3s opacity ease !important;
+  -o-transition: .3s opacity ease !important;
+}
+
+#ds-widget #right .arrow:hover {
+  opacity: 0.6 !important;
+}
+
+#ds-widget #right .slick-prev {
+  background-image: url(<%= image_url "widget-arrow-prev.png" %>) !important;
+  left: 0 !important;
+}
+
+#ds-widget #right .slick-next {
+  background-image: url(<%= image_url "widget-arrow-next.png" %>) !important; 
+  right: 0 !important;
+}
+
+#ds-widget #right #slider .container--images .image-gallery {
+  float: left !important;
+}
+
+#ds-widget #right #slider .container--images .image-gallery img {
+  border: 5px solid white !important;
+  margin-right: 10px !important; 
+  margin-bottom: 10px !important; 
+  position: relative !important; 
+  width: 150px !important; 
+  height: 150px !important; 
+  transition: .5s opacity ease !important;
+  -webkit-transition: .5s opacity ease !important;
+  -moz-transition: .5s opacity ease !important;
+  -o-transition: .5s opacity ease !important;
+}
+
+#ds-widget #right #slider .container--images .image-gallery img:hover {
+  opacity: 0.8 !important;
+}

@@ -1,0 +1,95 @@
+body.dark-bg
+  background-color: $darkGrey
+
+.main-content.login
+  width: 830px
+  margin: 160px auto 0
+
+  .duck-pic
+    float: left
+    margin-top: 50px
+    margin-right: 70px
+
+  .login-form
+    height: 500px
+    display: inline-block
+    width: 400px
+    overflow: hidden
+    padding: 5px 35px
+    color: #fff
+
+    .homepage-button a
+      text-decoration: none
+      font-size: 12px
+      color: $lightGrey
+
+      &:before
+        content: "< "
+        font-weight: bold
+
+      &:hover
+        color: $veryLightGrey
+
+    h1
+      margin-top: 44px
+      font-size: 39px
+      font-weight: lighter
+      line-height: 50px
+
+    h3
+      margin: 35px 0 38px
+      font-size: 19px
+
+    .input
+      margin-bottom: 18px
+      font-size: 12px
+
+      label
+        width: 95px
+        line-height: 50px
+        font-weight: bold
+        float: left
+        display: inline-block
+
+      input
+        padding: 15px
+        color: $darkGrey
+        width: 210px
+
+    .under-form-box
+      margin-top: 25px
+      line-height: 50px
+
+      a
+        display: inline-block
+        text-decoration: none
+        color: #fff
+        font-size: 13px
+
+        &:hover
+          color: $lightGrey
+
+      input[type="submit"]
+        @include orange-button
+        display: inline-block
+        margin-left: 100px 
+        width: 128px
+
+  &.new-password
+    h3
+      margin: 35px 0 30px
+
+    .block-field 
+      label
+        display: block
+        float: none
+        line-height: 30px
+        width: 370px
+
+      input
+        width: 336px
+
+    .under-form-box input[type="submit"]
+      width: 370px
+      margin-left: 0
+      font-size: 16px

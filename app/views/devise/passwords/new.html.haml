@@ -1,0 +1,13 @@
+.main-content.login.new-password
+  = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+    .duck-pic= image_tag("login-duck.png")
+    .login-form
+      .homepage-button
+        = link_to "Log in", new_user_session_path
+      %h1 So you forgot your password?
+      %h3.bold No problem, it happens.
+      .input.block-field
+        = f.label :email, "Your E-mail:"
+        = f.email_field :email, autofocus: true
+      .under-form-box
+        = f.submit "Send me reset password instructions"

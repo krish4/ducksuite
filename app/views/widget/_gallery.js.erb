@@ -1,0 +1,50 @@
+$(scriptTag).before('<div id="ds-widget"><div id="main-div"></div><div id="right"><div id="slider"></div><div id="arrows"></div></div></div>');
+
+$("#ds-widget").after($("<div id='ds-loader'>Loading...</div>").fadeIn('slow'));
+
+$.getJSON(API_URL)
+  .done(function(data) {
+    $('#ds-loader').hide();
+    
+    $('#main-div').append('<img id="main-image" src="' + data[0].images.standard_resolution.url + '" />');
+    
+    var cont = 0;
+    for (var i = 0; i < data.length; i++) {
+      if (i % 4 === 0) {
+        cont++;
+        $('#slider').append('<div id="container-' + cont + '"><div class="container--images"></div></div>');
+      }
+      $('#container-' + cont + " .container--images").append('<a class="image-gallery" href="' + data[i].images.standard_resolution.url + '"><img data-lazy="' + data[i].images.low_resolution.url + '" /></a>');
+    }
+
+
+    $('#slider').slick({
+      lazyLoad: 'ondemand',
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 8000,
+      speed: 500,
+      swipe: true,
+      appendArrows: $('#right'),
+      prevArrow: '<div class="arrow slick-prev"></div>',
+      nextArrow: '<div class="arrow slick-next"></div>'
+    });
+
+    $('.image-gallery').click(function(e) {
+      e.preventDefault();
+
+      var currentURL = $('#main-image').attr("src");
+      var newURL = $(this).attr("href");
+
+      if(newURL != currentURL)
+        $('#main-image').fadeOut(function() { 
+          $(this).load(function() { $(this).fadeIn(); }); 
+          $(this).attr("src", newURL); 
+        }); 
+    })
+
+  })
+  .fail(function() {
+    console.log('Ducksuite widget: Error while performing XHR request.');
+  });

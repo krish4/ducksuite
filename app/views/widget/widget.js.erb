@@ -1,0 +1,106 @@
+(function() {
+
+  var scriptName    = "widget";
+  var API_URL       = "http://<%= request.host %>:<%= request.port %>/api/albums/<%= @album_id %>/pictures";
+  
+  var jQuery;
+  var jQueryVersion = "2.1.1";
+  var jQueryURL     = "https://ajax.googleapis.com/ajax/libs/jquery/" + jQueryVersion + "/jquery.min.js";
+
+  init();
+
+  function init() {
+    if (window.jQuery === undefined)
+      loadScript(jQueryURL, "head", initializejQuery);
+    else {
+      jQuery = window.jQuery;
+      loadSlickAndRun();
+    }
+  }
+
+  function initializejQuery() {
+    // We should resolve a problem with multiple jQueries,
+    // however .noConflict(true) only causes some problems for now. 
+    // jQuery = window.jQuery.noConflict(true);
+    jQuery = window.jQuery;
+    loadSlickAndRun();
+  }
+
+  function loadSlickAndRun() {
+    loadCSS('<%= URI.join(root_url, stylesheet_path("slick")) %>');
+    loadScript('<%= URI.join(root_url, javascript_path("slick.min")) %>', 'head', main);
+  }
+
+  function main() {
+    var scriptTag = getScriptTag(scriptName);
+    jQuery(document).ready(function($) {
+      if (typeof $.fancybox != 'function') 
+        loadFancybox();
+      loadCSS('<%= URI.join(root_url, stylesheet_path("widget/#{@widget_type}")) %>');
+      <%= render partial: "#{@widget_type}.js" %>
+    });
+  }
+
+  function loadFancybox() {
+    loadCSS('<%= URI.join(root_url, stylesheet_path("fancybox")) %>');
+    loadScript('<%= URI.join(root_url, javascript_path("fancybox.pack")) %>', 'head');
+  }
+
+  function getScriptTag(scriptName) {
+    var scriptTag;
+    var scripts = document.getElementsByTagName('script');
+    for(var i = 0; i < scripts.length && !scriptTag; i++) {
+      var name = scripts[i].src;
+      if(name && name.indexOf(scriptName) > 0) 
+        scriptTag = scripts[i];
+    }
+    return scriptTag;
+  }
+
+  function loadScript(scriptSource, destElemName, onLoadFunction) {
+    var newScriptTag = createScriptTag(scriptSource);
+    addNewTag(newScriptTag, destElemName);
+    if(typeof onLoadFunction === 'function')
+      runCallbackForNewTag(newScriptTag, onLoadFunction);
+  }
+
+  function runCallbackForNewTag(tag, callback) {
+    if (tag.readyState) {
+      tag.onreadystatechange = function() {
+        if (this.readyState == 'loaded' || this.readyState == 'complete')
+          callback();
+      }
+    } else 
+      tag.onload = callback;
+  }
+
+  function createScriptTag(src) {
+    var tag = document.createElement('script');
+    setTagAttributes(tag, {"type": "text/javascript", "src": src})
+    return tag;
+  }
+
+  function loadCSS(href) {
+    var newLinkTag = createCssLinkTag(href);
+    addNewTag(newLinkTag, "head");
+  }
+
+  function createCssLinkTag(href) {
+    var tag = document.createElement('link');
+    setTagAttributes(tag, {"type": "text/css", "rel": "stylesheet", "href": href});
+    return tag;
+  }
+
+  function setTagAttributes(tag, attrs) {
+    for (var key in attrs) 
+      tag.setAttribute(key, attrs[key]);
+  }
+
+  function addNewTag(tag, destElemName) {
+    getDestinationElement(destElemName).appendChild(tag); 
+  }
+
+  function getDestinationElement(elementName) {
+    return document.getElementsByTagName(elementName)[0] || document.documentElement;
+  }
+})();

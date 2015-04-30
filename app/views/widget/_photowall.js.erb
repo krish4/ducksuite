@@ -1,0 +1,60 @@
+$(scriptTag).before('<div id="ds-widget"><div id="photowall"></div></div>');
+
+var itemCounter = 0;
+var picturesPerPage = 8;
+
+var loadItems = function(data, startIndex) {
+  var pictures = startIndex === 0 ? data : data.slice(startIndex);
+  $.each(pictures, function(index, item) {
+    if(index >= picturesPerPage) return false;
+    $('#photowall').append('<div class="photowall-image"><a class="ds-fancybox" href="' + item.images.standard_resolution.url + '"><img class="slick-slider-img" src="' + item.images.low_resolution.url + '" /></a></div>');
+    itemCounter++;
+  });
+}
+
+$("#ds-widget").after($("<div id='ds-loader'>Loading...</div>").fadeIn('slow'));
+
+function loadMorePictures() {
+  $.getJSON(API_URL)
+    .done(function(data) {
+      loadItems(data, itemCounter);
+      if(itemCounter >= data.length) 
+        $('#ds-load-more').hide();
+    })
+    .fail(function() {
+      console.log('Ducksuite widget: Error while performing XHR request.');
+    });
+}
+
+function loadEnoughAtTheBeginning() {
+  if(document.getElementById("ds-widget").offsetHeight < $(window).height()) {
+    loadMorePictures();
+    setTimeout(loadEnoughAtTheBeginning, 1000);
+  }
+}
+
+$(window).scroll(function() {
+  if($(window).scrollTop() >= $(document).height() - $(window).height() - 10)
+    loadMorePictures();
+});
+
+$.getJSON(API_URL)
+  .done(function(data) {
+    loadItems(data, itemCounter);
+    $('#ds-loader').hide();
+    $('.ds-fancybox').fancybox();
+
+    if(itemCounter < data.length)
+      $("#ds-widget").after('<div id="ds-load-more">LOAD MORE</div>');
+    
+    $('#ds-load-more').on('click', function() {
+      loadItems(data, itemCounter);
+      if(itemCounter >= data.length)
+        $('#ds-load-more').hide();
+    });
+
+    setTimeout(loadEnoughAtTheBeginning, 0);
+  })
+  .fail(function() {
+    console.log('Ducksuite widget: Error while performing XHR request.');
+  });

@@ -1,0 +1,248 @@
+.topbar
+  .breadcrumb
+    %a{:href => "/albums"} MY ALBUMS
+    .subpage-title {{ album.title | uppercase }}
+  .topnav
+    %button.green.fancybox{href: "#publish-album"} Publish This Album
+    %button.red{"ng-if" => "album.is_published == true", "ng-really-message" => "Are you sure you want to unpublish album „{{ album.title }}”?", "ng-really-click" => "unpublishAlbum($index)"} Unpublish This Album
+
+.main-content.view-album
+  %aside
+
+    .box.notifications-box{"ng-if" => "showNotificationsBox"}
+      .stripe-title Notifications
+      .content
+        .pic-icon
+        %p
+          %span.bold.dark {{ newPicturesNumber }} new photos
+          submitted
+        .new-sample-pictures
+          .new-picture{"ng-repeat" => "picture in recentPictures"}
+            %img{"ng-src" => "{{ picture.images.thumbnail.url }}"}
+        .view-in-inbox
+          %a{"ng-href" => "{{ album.id + '/inbox' }}"} View in inbox
+
+    .box.album-details-box
+      .stripe-title
+        Album details
+        %a.fancybox{href: "#save-album-modal", "ng-click" => "setDefaultValuesForAlbum()"} Edit
+      .content
+        .title Title
+        .subtitle {{ album.title }}
+
+        .title Hashtags
+
+        .hashtags
+          .hashtag{"ng-repeat" => "hashtag in album.hashtags"} {{ "#" + hashtag }}
+
+    .box.filters-box
+      .stripe-title Filters
+      .content
+        %form{novalidate: true}
+          .single-input
+            %label{:for => "location"} Location
+            %input{:type => "text", name: "location", "ng-autocomplete" => true, "ng-model" => "album.location_attributes.name", "ng-change" => "geocodeAddress()"}/
+
+          .single-input.radius{"ng-if" => "album.location_attributes.name"}
+            %label{:for => "radius"} Radius
+            %input.with-symbol{:type => "number", name: "radius", min: "0", step: "200", "ng-model" => "map.circle.radius"}/
+            .input-symbol-box
+              %p meters
+
+          %div{"ng-if" => "album.location_attributes.name", "google-map" => true, center: "map.center", zoom: "map.zoom", draggable: "{{ map.draggable }}", pan: "true", control: "map.control", options: "map.options"}
+            %marker{"ng-repeat" => "marker in mapMarkers", coords: "marker.coords", idKey: "marker.idKey"}
+            %circle{center: "map.circle.center", radius: "map.circle.radius", fill: "map.circle.fill", stroke: "map.circle.stroke", draggable: "map.circle.draggable", editable: "map.circle.editable", visible: "map.circle.visible", events: "map.circle.events"}
+
+          .single-input.number-input
+            .input-symbol-box
+              %p min
+            %label{:for => "number_of_followers"} Number of followers
+            %input.with-symbol{:type => "number", min: "0", step: "1", name: "number_of_followers", "ng-model" => "album.min_followers_number"}/
+
+          .single-input.number-input
+            .input-symbol-box
+              %p min
+            %label{:for => "number_of_likes"} Number of likes
+            %input.with-symbol{:type => "number", min: "0", step: "1", name: "number_of_likes", "ng-model" => "album.min_likes_number"}/
+
+          .single-input.number-input
+            .input-symbol-box
+              %p min
+            %label{:for => "number_of_comments"} Number of comments
+            %input.with-symbol{:type => "number", min: "0", step: "1", name: "number_of_comments", "ng-model" => "album.min_comments_number"}/
+
+  .album-pictures-box
+    .title {{ album.title | uppercase }}
+
+    %spinner{"ng-show" => "showSpinner()"}
+
+    .pictures{"ng-if" => "pictures.length"}
+      .picture-box{"ng-repeat" => "picture in pictures | filter: filterByFollowersNumber | filter: filterByCommentsNumber | filter: filterByLikesNumber | filter: locationFilter"}
+        .main-picture
+          %a.remove-box{:href => "", "ng-really-message" => "Are you sure you want to remove selected picture from the album?", "ng-really-click" => "removePicture(picture)"}
+            .remove-icon= image_tag("icon-deny-photo-small.png")
+            %p delete
+          %img.fancybox{"ng-src" => "{{ picture.images.low_resolution.url }}", :alt => "{{ picture.caption.text | limitTo: 100 }}", "ng-href" => "#single-picture-modal", "ng-click" => "$parent.loadPictureById(picture.id)"}/
+        .picture-options
+          .option.author-profile-image
+            %a{"ng-href" => "{{ 'http://instagram.com/' + picture.user.username }}"}
+              %img{"ng-src" => "{{ picture.user.profile_picture }}", :alt => "{{ picture.user.username }}"}/
+          .option.picture-likes
+            .icon= image_tag("icon-heart-empty-white.png")
+            %p {{ picture.likes.count }}
+          .option.picture-comments
+            .icon= image_tag("icon-comment-white.png")
+            %p {{ picture.comments.count }}
+.modal-box-content
+  #publish-album{"ng-controller" => "PublishAlbumCtrl"}
+    .top-box
+      .title PUBLISH THIS ALBUM ON YOUR WEBSITE
+      %p Choose the way you would like to publish this album
+
+      .publish-options
+        %figure{"ng-class" => "{selectedFigure: currentAlbumType == 'photowall'}", "ng-click" => "setCurrentAlbumType('photowall') && setScriptAsCopied(false)"}
+          .preview= image_tag("publish-photo-wall.png")
+          %figcaption Photowall
+        %figure{"ng-class" => "{selectedFigure: currentAlbumType == 'gallery'}", "ng-click" => "setCurrentAlbumType('gallery') && setScriptAsCopied(false)"}
+          .preview.gallery= image_tag("publish-gallery.png")
+          %figcaption Gallery
+        %figure{"ng-class" => "{selectedFigure: currentAlbumType == 'slideshow'}", "ng-click" => "setCurrentAlbumType('slideshow') && setScriptAsCopied(false)"}
+          .preview.slideshow= image_tag("publish-slide-show.png")
+          %figcaption Slide-show
+        %figure{"ng-class" => "{selectedFigure: currentAlbumType == 'facebookalbum'}"}
+          .preview.facebook-album= image_tag("publish-facebook.png")
+          %figcaption Facebook album
+
+    .bottom-box
+      %p Copy and paste this code on your website
+      .code-snippet
+        %pre
+          %code
+            :escaped
+              {{ scriptToCopy() }}
+
+      .buttons
+        .button.orange-button{"ng-click" => "$parent.selectAlbumAsPublished()", "clip-copy" => "scriptToCopy()", "clip-click" => "setScriptAsCopied(true)", "ng-switch" => true, "on" => "isScriptCopied"}
+          %p{"ng-switch-default" => true} Copy
+          %p{"ng-switch-when" => "true"} 
+            Copied
+            = image_tag("icon-done-grey.png", class: "copy-icon")
+        .button.green-button{"ng-click" => "$parent.selectAlbumAsPublishedAndClose()"}
+          %p Done
+
+  #save-album-modal.album-modal{"ng-controller" => "EditAlbumCtrl"}
+    .white-box
+      %form{name: "updateAlbumForm", novalidate: true}
+        .stripe-title
+          %p Edit Album
+        %label Title
+        %input{:type => "text", "ng-model" => "album.title", required: true}/
+        .single-input
+          .input-symbol-box #
+          %label Add hashtags
+          %input.with-symbol{:type => "text", "ng-model" => "hashtag", "ng-enter" => "addHashtag(hashtag)"}/
+          .orange-button{"ng-click" => "addHashtag(hashtag)"}
+            %p ADD
+
+        .hashtags
+          .hashtag{"ng-repeat" => "hashtag in album.hashtags"}
+            %p # {{ hashtag }}
+            .remove-hashtag{"ng-click" => "removeHashtag(hashtag)"} x
+
+        .stripe-title.greybg
+          %p Filters
+          .open-close{"ng-click" => "changeFiltersVisibility()", "ng-switch" => "areFiltersVisible"}
+            .option{"ng-switch-when" => "false"}
+              %p Open
+              .arrow.open
+            .option{"ng-switch-when" => "true"}
+              %p Close
+              .arrow.close
+
+        .filters-box{"ng-if" => "areFiltersVisible"}
+          %label Location
+          %input{:type => "text", name: "location", "ng-autocomplete" => true, "ng-model" => "album.location_attributes.name", "ng-change" => "geocodeAddress()"}/
+
+          .single-input.radius{"ng-if" => "album.location_attributes.name"}
+            %label{:for => "radius"} Radius
+            %input.with-symbol{:type => "number", name: "radius", min: "0", step: "200", "ng-model" => "map.circle.radius"}/
+            .input-symbol-box
+              %p meters
+
+          -# ng-if is really needed here. Google Map does not render properly being within hidden div.
+          %div.location-map{"ng-if" => "album.location_attributes.name", "google-map" => true, center: "map.center", zoom: "map.zoom", draggable: "{{ map.draggable }}", pan: "true", control: "map.control", options: "map.options"}
+            %circle{center: "map.circle.center", radius: "map.circle.radius", fill: "map.circle.fill", stroke: "map.circle.stroke", draggable: "map.circle.draggable", editable: "map.circle.editable", visible: "map.circle.visible", events: "map.circle.events"}
+
+          .single-inputs
+            .single-input.number-input
+              .input-symbol-box
+                %p min
+              %label Number of followers
+              %input.with-symbol{:type => "text", "ng-model" => "album.min_followers_number"}/
+
+            .single-input.number-input
+              .input-symbol-box
+                %p min
+              %label Number of likes
+              %input.with-symbol{:type => "text", "ng-model" => "album.min_likes_number"}/
+
+            .single-input.number-input
+              .input-symbol-box
+                %p min
+              %label Number of comments
+              %input.with-symbol{:type => "text", "ng-model" => "album.min_comments_number"}/
+
+        .center
+          %button.green-button{"ng-click" => "updateAlbum($event, updateAlbumForm)"} SAVE CHANGES
+
+  #single-picture-modal
+    .picture
+      %a{"ng-href" => "{{ picture.link }}"}
+        %img{"ng-src" => "{{ picture.images.standard_resolution.url }}", :alt => "{{ picture.caption.text }}"}/
+
+    .details
+      .content-box
+
+        .top-info-box
+          .info-box
+            .author-image
+              %a{"ng-href" => "{{ 'http://instagram.com/' + picture.user.username }}"}
+                %img{"ng-src" => "{{ picture.user.profile_picture }}", :alt => "{{ picture.user.username }}"}/
+            .image-info
+              %p.author-name
+                %a{"ng-href" => "{{ 'http://instagram.com/' + picture.user.username }}"} {{ picture.user.username }}
+              %p.uploaded-date
+                %span{"data-livestamp" => "{{ picture.created_time }}"}
+              %p.description {{ picture.caption.text }}
+
+            .image-stats
+              .posts-number
+                %p.bold {{ user.counts.media }}
+                %p posts
+              .followers-number
+                %p.bold {{ user.counts.followed_by }}
+                %p followers
+              .following-number
+                %p.bold {{ user.counts.follows }}
+                %p following
+
+          .likes-box
+            .icon= image_tag("icon-heart-red.png")
+            .content
+              %p
+                %span.bold {{ likeItText }}
+
+        .comments-box
+          .comment{"ng-repeat" => "comment in picture.comments.data"}
+            .icon
+              %img{"ng-src" => "{{comment.from.profile_picture}}", :alt => "comment.from.username"}/
+            .content
+              %p.author-name {{ comment.from.username }}
+              %p.comment-body {{ comment.text }}
+
+      .leave-comment
+        .icon= image_tag("icon-heart-empty.png")
+        .content
+          %p
+            %a{"ng-href" => "{{ picture.link }}", target: "_blank"} Click here
+            to add your own comment to this picture.

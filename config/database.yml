@@ -1,0 +1,8 @@
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: ducksuite_production
+  pool: 5
+  username: ducksuite_production
+  password: 'dbd9cf6ad063323f1761'
+  host: localhost

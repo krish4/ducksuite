@@ -1,0 +1,164 @@
+.album-modal
+  width: 420px
+  margin: 0 auto
+
+  .hashtags
+    margin: 13px
+    margin-top: 0
+    margin-bottom: 15px
+
+    .hashtag
+      color: #fff
+      display: inline-block
+      line-height: 25px
+      margin-top: 5px
+      margin-right: 5px
+      font-size: 13px 
+
+      p
+        background-color: $darkGrey
+        padding: 0 7px
+        display: inline-block
+        font-weight: 600
+
+      .remove-hashtag
+        background-color: $darkGrey
+        display: inline-block
+        border-left: 1px solid #fff
+        width: 25px
+        text-align: center
+        border: none
+        margin-left: -2px
+        cursor: pointer
+
+        &:hover
+          background-color: $lightGrey
+          color: $darkGrey
+
+  .fetching-pictures-info
+    padding-left: 15px
+    padding-bottom: 15px
+    font-size: 12px
+    color: $lightGrey
+    font-style: italic
+
+  .white-box
+    background-color: #fff
+    padding-top: 20px
+
+    .filters-box 
+      .location-map
+        margin-left: 15px
+
+        .angular-google-map-container
+          height: 200px
+          width: 390px
+
+    .stripe-title
+      background-color: $lightOrange
+      color: #fff
+      font-weight: bold
+      margin-bottom: 20px
+      
+      p
+        text-indent: 15px
+        line-height: 50px
+        display: inline-block
+
+      &.greybg
+        background-color: $veryLightGrey
+        color: $darkGrey
+        margin-bottom: 10px
+
+      .open-close
+        float: right
+        margin-right: 10px
+        font-weight: 600
+        font-size: 10px
+
+        .option
+          cursor: pointer
+          text-align: right
+
+          .arrow
+            position: relative
+            top: 2px
+            display: inline-block
+
+            &.open
+              @include sprite-image("sprite-ducksuite.png", 10px, 14px, 0, -50px)
+
+            &.close
+              @include sprite-image("sprite-ducksuite.png", 14px, 14px, -10px, -50px)
+
+    label
+      display: block
+      font-size: 13px
+      color: $lightGrey
+      padding-bottom: 8px
+      margin-left: 15px
+
+    input:not([type="submit"])
+      margin-bottom: 15px
+      margin-left: 15px
+      padding: 16px 12px
+      font-size: 13px
+      background-color: $veryLightGrey
+      border: 1px solid $lightGrey
+      width: 362px
+
+    .single-input.radius 
+      > input.with-symbol
+        text-indent: 90px
+        width: 150px
+
+      > .input-symbol-box
+        width: 80px !important
+        font-size: 14px
+
+    .single-input
+      position: relative
+
+      input.with-symbol
+        text-indent: 50px
+        width: 285px
+
+      .input-symbol-box
+        width: 50px
+        height: 50px
+        font-size: 16px
+        font-weight: bold
+        background-color: $veryLightGrey
+        border: 1px solid $lightGrey
+        position: absolute
+        top: 21px
+        left: 15px
+        text-align: center
+        line-height: 50px
+
+      .orange-button
+        @include orange-button
+        position: absolute
+        right: 17px
+        top: 21px
+        padding: 15px 20px
+        cursor: pointer
+
+      &.number-input 
+        display: inline-block
+        margin-top: 10px
+
+        .input-symbol-box
+          font-size: 14px
+
+        &:nth-child(2n)
+          float: right
+          margin-right: 17px 
+
+        input
+          width: 150px
+  
+  button.green-button
+    width: 390px
+    margin: 20px 0 30px
+    @include green-button

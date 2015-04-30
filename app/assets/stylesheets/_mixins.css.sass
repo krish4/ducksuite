@@ -1,0 +1,102 @@
+@mixin vertical-align
+  position: relative
+  top: 50%
+  -webkit-transform: translateY(-50%)
+  -ms-transform: translateY(-50%)
+  transform: translateY(-50%)
+
+@mixin preserve-3d
+  -webkit-transform-style: preserve-3d
+  -moz-transform-style: preserve-3d
+  transform-style: preserve-3d
+
+@mixin active-settings-button
+  text-align: center
+  height: 50px
+  line-height: 50px
+  font-size: 16px
+  font-weight: bold
+  display: inline-block
+  border: 1px solid $lightGrey
+  color: $lightGrey
+  background-color: #fff
+  padding: 0 24px
+
+@mixin sprite-image($image-path, $width, $height, $x-pos, $y-pos)
+  background-image: image-url($image-path)
+  background-position: $x-pos $y-pos
+  width: $width
+  height: $height
+
+@mixin green-button
+  padding: 10px
+  color: #fff
+  font-size: 18px
+  font-weight: bold
+  border: none
+  background: transparent
+  background-color: $lightGreen
+  border-bottom: 4px solid $darkGreen
+
+  &:hover
+    background-color: $darkGreen
+    border-bottom: 4px solid $lightGreen        
+
+@mixin grey-button
+  padding: 10px
+  color: $darkGrey
+  font-size: 18px
+  font-weight: bold
+  border: none
+  background: transparent
+  background-color: #F0F0EE
+  border-bottom: 4px solid $lightGrey
+
+  &:hover
+    background-color: $lightGrey
+    border-bottom: 4px solid #F0F0EE     
+    color: #fff
+
+@mixin blue-button
+  padding: 10px
+  color: #fff
+  font-size: 18px
+  font-weight: bold
+  border: none
+  background: transparent
+  background-color: $lightBlue
+  border-bottom: 4px solid $darkBlue
+
+  &:hover
+    background-color: $darkBlue
+    border-bottom: 4px solid $lightBlue
+    color: #fff
+
+@mixin orange-button
+  padding: 10px
+  color: #fff
+  font-size: 18px
+  font-weight: bold
+  border: none
+  background: transparent
+  background-color: $lightOrange
+  border-bottom: 4px solid $darkOrange
+
+  &:hover
+    background-color: $darkOrange
+    border-bottom: 4px solid $lightOrange
+    color: #fff
+
+@mixin red-button
+  padding: 10px
+  color: #fff
+  font-size: 18px
+  font-weight: bold
+  border: none
+  background: transparent
+  background-color: $veryLightRed
+  border-bottom: 4px solid $lightRed
+
+  &:hover
+    background-color: $lightRed
+    border-bottom: 4px solid $darkRed

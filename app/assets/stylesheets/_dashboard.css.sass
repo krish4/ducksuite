@@ -1,0 +1,203 @@
+.heading
+  color: $headingColor
+  font-weight: bold
+  padding-bottom: 10px
+
+.bold
+  font-weight: bold
+
+.orange
+  color: $lightOrange
+
+.grey
+  color: $lightGrey
+
+.dashboard-info-box
+  float: left
+  width: 370px
+  margin-right: 20px
+
+  .info-box
+    background-color: #fff
+    display: table
+    border: 1px solid $lightGrey
+
+    .info-box-cell
+      text-align: center
+      display: table-cell 
+      width: 200px
+      height: 210px
+
+      .spinner
+        margin-bottom: 0
+        top: -15px
+
+      &:first-child
+        border-right: 1px solid $lightGrey        
+
+      .info-box-pic
+        margin: 36px auto  
+        background-image: image-url("sprite-ducksuite.png")
+
+        &.left
+          background-position: 0 -173px
+          width: 52px
+          height: 57px
+
+        &.right
+          background-position: -51px -173px
+          width: 66px
+          height: 57px
+
+      p
+        color: $lightGrey
+        font-size: 14px
+
+      .big-number
+        font-size: 32px
+        margin: 12px
+        margin-bottom: 10px
+
+.welcome-box
+  background-color: #fff
+  color: $darkGrey
+  height: 435px
+  margin-top: 40px
+  position: relative
+  width: 100%
+  h3
+    color: $lightGrey
+    font-size: 15px
+  & > div
+    position: absolute
+
+  .welcome-box--text
+    top: 173px
+    left: 128px
+    h2
+      font-size: 28px
+      margin-bottom: 16px
+
+  .welcome-box--duck
+    left: 700px
+    top: 90px
+    img
+      margin-left: 5px
+    h3
+      margin-top: 35px
+
+  .welcome-box--arrow
+    top: 28px
+    right: 105px
+      
+.dashboard-notifications-box
+  overflow: hidden
+  margin-bottom: 30px
+
+  .no-notifications
+    color: $lightGrey
+    width: 240px
+    margin: 80px auto 0
+    text-align: center
+    img
+      float: left
+      margin-top: 7px
+      margin-right: 10px
+    p
+      font-size: 18px
+      line-height: 1.5em
+      &.light-bold
+        font-weight: 600
+      a
+        font-size: 15px
+        color: $lightGrey
+        transition: .5s color ease
+        &:hover
+          color: $darkGrey
+  
+  .notifications-boxes
+    background-color: #fff
+    width: 100%
+    padding-top: 5px
+    padding-bottom: 30px
+
+    .single-notification-box
+      border: 1px solid $lightGrey
+      margin: 18px 0
+
+      .heading-bar
+        background-color: $headingBarColor
+        height: 50px
+
+        p 
+          @include vertical-align
+          color: #fff
+          font-size: 10px
+          font-weight: bold
+          margin-left: 30px
+
+      .row
+        border-top: 1px solid $lightGrey
+
+        .content
+          display: table
+          
+          .cell
+            display: table-cell
+            font-size: 13px
+            color: $darkGrey
+            height: 60px
+            vertical-align: middle
+            position: relative
+
+            &:first-child
+              text-align: center
+              width: 70px
+              padding-left: 18px
+
+            &:first-child + .cell
+              width: 330px
+              padding: 18px
+
+              p 
+                line-height: 20px
+
+                a
+                  color: $darkGrey
+                  text-decoration: none
+
+                  &:hover
+                    color: $lightGrey
+
+              a.orange
+                color: $lightOrange
+                line-height: 30px
+                text-decoration: none
+
+                &:hover
+                  color: $darkOrange
+
+            &.photos
+              img
+                width: 60px
+                height: 60px
+
+            &:first-child + .cell + .cell
+              text-align: right
+              width: 320px
+
+            .photo-icon
+              @include sprite-image("sprite-ducksuite.png", 40px, 40px, 0, -86px)
+              margin: 0 auto
+
+            .comments-icon
+              @include sprite-image("sprite-ducksuite.png", 45px, 40px, -40px, -86px)
+              margin: 0 auto
+
+
+            &.comments-content
+              width: 590px !important
+
+          .commented-picture
+            margin-top: 20px
+

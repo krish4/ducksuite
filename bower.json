@@ -1,0 +1,24 @@
+{
+  "lib": {
+    "name": "bower-rails generated lib assets",
+    "dependencies": {
+      "angular": "latest",
+      "angular-route": "latest",
+      "angular-resource": "latest",
+      "angular-animate": "latest",
+      "angular-devise": "latest",
+      "angular-google-maps": "latest",
+      "angular-mocks": "latest",
+      "moment": "latest",
+      "ngInfiniteScroll": "latest",
+      "zeroclipboard": "latest",
+      "ng-clip": "latest"
+    }
+  },
+  "vendor": {
+    "name": "bower-rails generated vendor assets",
+    "dependencies": {
+      // "three.js"    : "https://raw.github.com/mrdoob/three.js/master/build/three.js"
+    }
+  }
+}

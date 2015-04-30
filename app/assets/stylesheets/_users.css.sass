@@ -1,0 +1,84 @@
+.main-content.users
+  font-size: 14px
+
+  table 
+    margin: 0 auto
+    text-align: center
+    tr 
+      background-color: white
+      border-bottom: 1px solid $lightGrey
+      &:nth-child(2n+1)
+        background-color: #f7f7f7
+      &:last-child
+        border: none
+      th
+        background-color: $darkGrey
+        color: white
+        font-weight: bold
+        padding: 10px
+      td
+        padding: 15px 20px
+        &.user-name
+          min-width: 200px
+        &.user-email
+          min-width: 200px
+        &.user-brand
+          min-width: 100px
+        &.user-account-options
+          font-style: italic
+          .close-account
+            color: red
+          .open-account
+            color: green
+          & > div:hover
+            cursor: pointer
+            text-decoration: underline
+        &.user-edit
+          font-style: italic
+          &:hover
+            cursor: pointer
+            text-decoration: underline
+        
+  form
+    margin: 10px auto 100px
+    width: 420px
+
+    .come-back
+      font-size: 12px
+      color: $darkGrey
+      margin-top: 50px
+      cursor: pointer
+      text-align: center
+
+      &:hover
+        color: black 
+
+    .heading
+      background-color: $darkGrey
+      padding: 15px
+      color: white
+
+    .white-box
+      background-color: #fff
+      padding: 15px 10px 10px
+
+      label
+        display: block
+        font-size: 13px
+        color: $lightGrey
+        padding-bottom: 8px
+        margin-left: 5px
+
+      input:not([type="submit"])
+        margin-bottom: 15px
+        margin-left: 5px
+        padding: 16px 12px
+        font-size: 13px
+        background-color: $veryLightGrey
+        border: 1px solid $lightGrey
+        width: 362px
+
+    button.green-button-save
+      width: 100%
+      margin-top: 25px
+      @include green-button

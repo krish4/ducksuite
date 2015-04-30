@@ -1,0 +1,67 @@
+.topbar
+  .breadcrumb SETTINGS
+  .topnav
+    .settings-button{"ng-click" => "changeTab('general')", "ng-class" => "{active: currentTab == 'general'}" } General
+    .settings-button{"ng-click" => "changeTab('notifications')", "ng-class" => "{active: currentTab == 'notifications'}"} Notifications
+    .settings-button{"ng-click" => "changeTab('social')", " ng-class" => "{active: currentTab == 'social'}"} Social Profiles
+    .settings-button{"ng-click" => "changeTab('my_apps')", " ng-class" => "{active: currentTab == 'my_apps'}"} My APPs
+
+%div{"data-flash-message" => ""}
+.main-content.settings.general
+  -# GENERAL SETTINGS
+  %form{name: "generalSettingsForm", "ng-show" => "currentTab == 'general'", novalidate: true, "ng-submit" => "generalSettingsForm.$valid && submit(generalSettingsForm)"}
+    .white-box
+      %label Name
+      %input{:type => "text", "ng-model" => "data.user.name", required: true}/
+      %label E-mail
+      %input{:type => "text", "ng-model" => "data.user.email", required: true}/
+      %label Brand Name
+      %input{:type => "text", "ng-model" => "data.user.brand", required: false}/
+    .heading Change Password
+    .white-box
+      %label Old Password
+      %input{:type => "password", "ng-model" => "data.user.current_password"}/
+      %label New Password
+      %input{:type => "password", "ng-model" => "data.user.password"}/
+      %label Repeat New Password
+      %input{:type => "password", "ng-model" => "password_confirmation"}/
+    %button.green-button-save SAVE CHANGES
+
+  -# NOTIFICATIONS
+  .white-box.notifications{"ng-show" => "currentTab == 'notifications'"}
+    %p.grey Select the actions you would like to receive e-mail notifications about.
+
+    %p A daily summary of photo submissions
+    %button.green-button Receive
+    %button.grey-button Don't Receive
+
+    %p A daily summary of photo submissions
+    %button.green-button Receive
+    %button.grey-button Don't Receive
+
+  -# SOCIAL PROFILES
+  .white-box.social{"ng-controller" => "AuthUserCtrl", "ng-show" => "currentTab == 'social'"}
+    %p.grey Connect DUCKSUITE to your social media profiles and share your photos directly.
+    .social-button.center
+      %a.blue-button{"ng-href" => "{{ connectToInstagramURL }}", "ng-hide" => "isInstagramAuth"} Connect to Instagram
+      %p{"ng-show" => "isInstagramAuth"} You are already connected to Instagram!
+      %button.blue-button{"ng-hide" => "isFacebookAuth"} Connect to Facebook
+      %p{"ng-show" => "isFacebookAuth"} You are already connected to Facebook!
+
+  -# MY APPS
+  .my-apps{"ng-show" => "currentTab == 'my_apps'"}
+    .white-box
+      .heading Domains whitelist
+      {{ count }}
+      %ul
+        %li{ "ng-repeat" => "domain in data.user.domains" }
+          {{ domain.name }}
+
+          %a{"ng-click" => "removeDomain($index)"} remove
+    .white-box
+      %form{name: "newDomainForm", novalidate: true, "ng-submit" => "newDomainForm.$valid && addDomain(newDomainForm)"}
+        %label Name
+        %input{:type => "text", name: 'name', "ng-model" => "new_domain.name", required: true, domain: true, unique: true}/
+        %span{ "ng-show" => "newDomainForm.name.$error.unique"} The name must be unique!
+        %span{ "ng-show" => "newDomainForm.name.$error.domain"} Domain format is incorrect. Try with 'domain.com'
+        %button.green-button-save ADD

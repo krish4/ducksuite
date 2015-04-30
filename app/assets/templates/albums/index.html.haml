@@ -1,0 +1,188 @@
+.topbar
+  .breadcrumb MY ALBUMS
+  .topnav
+    %button.new-album-btn.fancybox{href: '#save-album-modal', "ng-click" => "setDefaultValuesForNewAlbum()"}
+      = image_tag("icon-new-album.png", class: "icon")
+      Create New Album
+
+.main-content
+
+  %div{"data-flash-message" => ""}
+
+  %spinner{"ng-show" => "showSpinner()"}
+
+  .no-content-yet{"ng-if" => "albums.length == 0"} You have not created any albums yet.
+
+  .albums{"ng-if" => "albums.length > 0"}
+    .single-album-box{"ng-repeat" => "album in albums", class: "album-{{album.id}}", "ng-if" => "albums[$index].id == album.id"}
+
+      .header
+        %p {{ album.title }}
+        %a.remove-album{:href => "", "ng-really-message" => "Are you sure you want to remove the album „{{ album.title }}”?", "ng-really-click" => "removeAlbum($index)"} Remove
+        .settings.fancybox{href: "#edit-album-modal", "ng-click" => "loadAlbumByIndex($index)"}
+          %p Settings
+          .settings-icon
+
+      .pictures
+        .no-pictures{"ng-if" => "!album.sample_pictures.length"}
+          = image_tag("albums-empty.png")
+        .one-picture{"ng-if" => "album.sample_pictures.length && album.sample_pictures.length < 4"}
+          %sample-images{images: "album.sample_pictures", count: "1"}
+        .multiple-pictures{"ng-if" => "album.sample_pictures.length >= 4"}
+          %sample-images{images: "album.sample_pictures", count: "4"}
+
+      .album-menu
+        .pic-info
+          .normal-box-number {{ album.pictures_number }}
+          .orange-box-number
+            %p {{ album.inbox_count }}
+
+        %a.view-new{"ng-href" => "{{ 'albums/' + album.id + '/inbox' }}"} 
+          .rectangular-btn.orangebg View New
+        
+        %a.fancybox{"ng-hide" => "album.is_published", :href => "/albums/{{ album.id }}#publish-album"} 
+          .rectangular-btn{"ng-click" => "$parent.selectAlbumById(album.id)", "ng-class" => "{greybg: album.is_published}"}
+            Publish Album
+
+        .published{"ng-show" => "album.is_published"}
+          .published-icon
+          %p Published
+
+        %a.view-album{"ng-href" => "/albums/{{ album.id }}"}
+          .rectangular-btn View Album
+
+.modal-box-content
+
+  #save-album-modal.album-modal{"ng-controller" => "CreateAlbumCtrl"}
+    .white-box
+      %form{name: "createNewAlbumForm", novalidate: true}
+        .stripe-title
+          %p Create New Album
+        %label Title
+        %input{:type => "text", "ng-model" => "album.title", required: true}/
+        .single-input
+          .input-symbol-box #
+          %label Add hashtags
+          %input.with-symbol{:type => "text", "ng-model" => "hashtag", "ng-enter" => "addHashtag(hashtag)"}/
+          .orange-button{"ng-click" => "addHashtag(hashtag)"}
+            %p ADD
+
+        .hashtags
+          .hashtag{"ng-repeat" => "hashtag in album.hashtags"}
+            %p # {{ hashtag }}
+            .remove-hashtag{"ng-click" => "removeHashtag(hashtag)"} x
+
+        .stripe-title.greybg
+          %p Filters
+          .open-close{"ng-click" => "changeFiltersVisibility()", "ng-switch" => "areFiltersVisible"}
+            .option{"ng-switch-when" => "false"}
+              %p Open
+              .arrow.open
+            .option{"ng-switch-when" => "true"}
+              %p Close
+              .arrow.close
+
+        -# ng-if is really needed here, read more below.
+        .filters-box{"ng-if" => "areFiltersVisible"}
+          %label{:for => "location"} Location
+          %input{:type => "text", name: "location", "ng-autocomplete" => true, "ng-model" => "album.location_attributes.name", "ng-change" => "geocodeAddress()"}/
+
+          .single-input.radius{"ng-show" => "album.location_attributes.name"}
+            %label{:for => "radius"} Radius
+            %input.with-symbol{:type => "number", name: "radius", min: "0", step: "200", "ng-model" => "map.circle.radius"}/
+            .input-symbol-box
+              %p meters
+
+          -# ng-if is really needed here. Google Map does not render properly being within hidden div.
+          %div.location-map{"ng-if" => "album.location_attributes.name", "google-map" => true, center: "map.center", zoom: "map.zoom", draggable: "{{ map.draggable }}", pan: "true", control: "map.control", options: "map.options"}
+            %circle{center: "map.circle.center", radius: "map.circle.radius", fill: "map.circle.fill", stroke: "map.circle.stroke", draggable: "map.circle.draggable", editable: "map.circle.editable", visible: "map.circle.visible", events: "map.circle.events"}
+
+          .single-inputs
+            .single-input.number-input
+              .input-symbol-box
+                %p min
+              %label Number of followers
+              %input.with-symbol{:type => "text", "ng-model" => "album.min_followers_number"}/
+
+            .single-input.number-input
+              .input-symbol-box
+                %p min
+              %label Number of likes
+              %input.with-symbol{:type => "text", "ng-model" => "album.min_likes_number"}/
+
+            .single-input.number-input
+              .input-symbol-box
+                %p min
+              %label Number of comments
+              %input.with-symbol{:type => "text", "ng-model" => "album.min_comments_number"}/
+
+        .center
+          %button.green-button{type: "button", "ng-click" => "createAlbum(createNewAlbumForm)"} CREATE ALBUM
+
+  #edit-album-modal.album-modal{"ng-controller" => "EditAlbumCtrl"}
+    .white-box
+      %form{name: "updateAlbumForm", novalidate: true}
+        .stripe-title
+          %p Edit Album
+        %label Title
+        %input{:type => "text", "ng-model" => "album.title", required: true}/
+        .single-input
+          .input-symbol-box #
+          %label Add hashtags
+          %input.with-symbol{:type => "text", "ng-model" => "hashtag", "ng-enter" => "addHashtag(hashtag)"}/
+          .orange-button{"ng-click" => "addHashtag(hashtag)"}
+            %p ADD
+
+        .hashtags
+          .hashtag{"ng-repeat" => "hashtag in album.hashtags"}
+            %p # {{ hashtag }}
+            .remove-hashtag{"ng-click" => "removeHashtag(hashtag)"} x
+
+        .stripe-title.greybg
+          %p Filters
+          .open-close{"ng-click" => "changeFiltersVisibility()", "ng-switch" => "areFiltersVisible"}
+            .option{"ng-switch-when" => "false"}
+              %p Open
+              .arrow.open
+            .option{"ng-switch-when" => "true"}
+              %p Close
+              .arrow.close
+
+        .filters-box{"ng-if" => "areFiltersVisible"}
+          %label Location
+          %input{:type => "text", name: "location", "ng-autocomplete" => true, "ng-model" => "album.location_attributes.name", "ng-change" => "geocodeAddress()"}/
+
+          .single-input.radius{"ng-show" => "album.location_attributes.name"}
+            %label{:for => "radius"} Radius
+            %input.with-symbol{:type => "number", name: "radius", min: "0", step: "200", "ng-model" => "map.circle.radius"}/
+            .input-symbol-box
+              %p meters
+
+          -# ng-if is really needed here. Google Map does not render properly being within hidden div.
+          %div.location-map{"ng-if" => "album.location_attributes.name", "google-map" => true, center: "map.center", zoom: "map.zoom", draggable: "{{ map.draggable }}", pan: "true", control: "map.control", options: "map.options"}
+            %circle{center: "map.circle.center", radius: "map.circle.radius", fill: "map.circle.fill", stroke: "map.circle.stroke", draggable: "map.circle.draggable", editable: "map.circle.editable", visible: "map.circle.visible", events: "map.circle.events"}
+
+          .single-inputs
+            .single-input.number-input
+              .input-symbol-box
+                %p min
+              %label Number of followers
+              %input.with-symbol{:type => "text", "ng-model" => "album.min_followers_number"}/
+
+            .single-input.number-input
+              .input-symbol-box
+                %p min
+              %label Number of likes
+              %input.with-symbol{:type => "text", "ng-model" => "album.min_likes_number"}/
+
+            .single-input.number-input
+              .input-symbol-box
+                %p min
+              %label Number of comments
+              %input.with-symbol{:type => "text", "ng-model" => "album.min_comments_number"}/
+
+        .center
+          %button.green-button{"ng-click" => "updateAlbum($event, updateAlbumForm)"} SAVE CHANGES
+
+
+

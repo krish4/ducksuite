@@ -1,0 +1,139 @@
+body
+  background-color: $veryLightGrey  
+  font-family: 'Open Sans' !important
+
+.modal-box-content
+  display: none
+
+.no-content-yet
+  display: block
+  text-align: center
+  padding: 15px
+  border: 1px solid grey
+  border-left: none
+  border-right: none 
+  font-weight: 600
+  color: $darkGrey
+
+header
+  background-color: #404040
+  height: $headerHeight
+  color: #fff
+
+  .header-content
+    width: $pageWidth
+    margin: 0 auto
+
+    #logo
+      float: left
+      margin-top: 11px
+      display: block
+      padding: 5px
+  
+    nav
+      float: right
+
+      ul 
+        @include preserve-3d
+
+        li
+          list-style: none
+          display: inline-block
+          font-size: 15px
+
+          a 
+            text-decoration: none
+            color: #fff
+            display: block
+            line-height: 78px
+            padding: 0 10px
+
+            img 
+              position: relative
+              top: 3px
+
+          &.float-shadow
+            @include float-shadow
+
+#container
+  width: $pageWidth
+  margin: 0 auto
+
+.topbar
+  background-color: #fff
+  height: $topbarHeight
+  margin: 25px 0
+  @include preserve-3d
+
+  .breadcrumb
+    float: left
+    font-size: 13px
+    @include vertical-align
+    margin-left: 20px
+    color: $lightGrey
+
+    a
+      color: $lightGrey
+      text-decoration: none
+
+    .dark
+      color: $darkGrey
+
+    .subpage-title
+      color: $darkGrey
+      font-weight: 700
+      display: inline-block
+
+      &:before
+        content: ">"
+        font-weight: normal
+        display: inline-block
+        margin: 0 10px
+        font-size: 12px
+        color: $lightGrey
+
+  .topnav
+    float: right
+    margin-right: 8px
+    margin-top: -5px
+
+    .settings-button
+      font-size: 16px
+      font-weight: bold
+      display: inline-block
+      margin-right: 15px
+      color: $darkGrey
+      cursor: pointer
+      padding: 20px
+      margin-top: -2px 
+
+      &:hover
+        color: $lightGrey
+
+    .settings-button.active
+      @include active-settings-button
+      margin-right: 15px
+
+    .new-album-btn
+      background: transparent
+      border: none
+      background-color: $lightOrange
+      text-align: center
+      font-size: 16px
+      font-weight: bold
+      text-decoration: none
+      color: #fff
+      padding: 18px
+      padding-top: 14px
+
+      &:hover
+        background-color: $darkOrange
+
+      .icon
+        position: relative
+        margin-right: 5px
+        margin-left: 2px
+        top: 3px
+
+.main-content
+  width: 100%

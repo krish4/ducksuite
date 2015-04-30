@@ -1,0 +1,260 @@
+.main-content.view-album
+  margin-top: 25px
+  margin-bottom: 100px
+  font-size: 15px
+
+  aside
+    width: 290px
+    float: left
+
+    .box
+      background-color: #fff
+      margin-bottom: 20px
+      color: $lightGrey
+
+      .stripe-title 
+        line-height: 45px
+        background-color: $lightOrange
+        color: #fff
+        font-weight: 700
+        text-indent: 20px
+
+      .content
+        padding: 21px
+        padding-bottom: 10px
+
+      &.notifications-box
+
+        .content
+
+          .pic-icon
+            @include sprite-image("sprite-ducksuite.png", 40px, 40px, 0, -86px)
+            display: inline-block
+            float: left
+
+          p
+            line-height: 40px
+            text-indent: 20px
+            font-size: 13px
+
+            .dark
+              color: $darkGrey
+
+          .new-sample-pictures
+            margin: 20px 0
+            
+            .new-picture
+              float: left
+
+              &, 
+              img
+                width: 62px
+                height: 62px
+
+          .view-in-inbox
+            clear: both 
+            text-align: right
+            line-height: 40px
+            
+            a
+              text-decoration: none
+              color: $lightOrange
+              font-weight: 700
+              font-size: 12px
+
+              &:hover
+                color: $darkOrange
+
+      &.album-details-box
+
+        .stripe-title
+          background-color: $darkGrey
+
+          a
+            text-decoration: none
+            color: #fff
+            float: right
+            font-size: 11px 
+            width: 60px
+
+            &:hover
+              color: $lightGrey
+
+        .content
+          padding-bottom: 20px
+
+          .title
+            margin-bottom: 10px
+
+          .subtitle
+            color: $darkGrey
+            font-weight: bold
+            margin: 5px 0 20px
+
+          .hashtag
+            color: #fff
+            display: inline-block
+            line-height: 25px
+            margin-right: 5px
+            margin-bottom: 5px
+            font-size: 13px 
+            background-color: $darkGrey
+            padding: 0 7px
+
+      &.filters-box
+        .stripe-title
+          background-color: $darkGrey
+
+        .content
+          label
+            display: block
+            font-size: 13px
+            color: $lightGrey
+            padding-bottom: 8px
+
+          input:not([type="submit"])
+            padding: 16px 12px
+            font-size: 13px
+            background-color: $veryLightGrey
+            border: 1px solid $lightGrey
+            width: 222px
+
+          .single-input
+            position: relative
+            color: $darkGrey
+            margin-bottom: 15px
+
+            input.with-symbol
+              text-indent: 50px
+              width: 150px
+
+            .input-symbol-box
+              width: 50px
+              height: 50px
+              font-size: 13px
+              font-weight: bold
+              background-color: $veryLightGrey
+              border: 1px solid $lightGrey
+              position: absolute
+              top: 21px
+              left: 0
+              text-align: center
+              line-height: 50px
+
+            &.radius
+              input.with-symbol
+                text-indent: 0
+                width: 80px
+                text-align: center
+                padding-right: 0
+
+              .input-symbol-box
+                width: 60px
+                left: 93px
+
+          .orange-button
+            @include orange-button
+            width: 100%
+            margin: 12px 0 15px
+
+  .album-pictures-box        
+    float: left
+    margin-left: 20px
+    width: 870px
+
+    .title
+      line-height: 45px
+      background-color: #fff
+      font-weight: 700
+      text-indent: 20px
+      margin-bottom: 20px
+
+    .picture-box
+      float: left
+      margin: 0 23px 20px 0
+
+      &:nth-child(4n)
+        margin-right: 0
+
+      .main-picture
+        cursor: pointer
+        position: relative
+        
+        &, 
+        img
+          width: 200px
+          height: 200px
+
+        a.remove-box
+          position: absolute
+          top: 0
+          right: 0
+          width: 50px
+          height: 50px
+          background-color: rgba(255,255,255,.7)
+          text-decoration: none
+          border-radius: 0 0 0 5px
+          opacity: .7
+    
+          &:hover
+            background-color: rgba(255,255,255,1)
+            opacity: 1
+
+          p
+            color: $lightRed
+            font-size: 12px
+            font-weight: 600
+            margin-top: 10px
+            margin-left: 8px
+
+          .remove-icon
+            margin-left: 18.5px
+            margin-top: 10px
+
+            &,
+            img
+              width: 13px
+              height: 11px
+
+
+      .picture-options
+        background-color: $darkGrey
+        height: 50px
+        position: relative
+
+        .option
+          position: absolute
+          top: 0
+          right: 0
+          color: #fff
+          height: 100%
+          text-align: center
+
+          &.picture-likes,
+          &.picture-comments
+            width: 50px
+
+          &.author-profile-image
+            left: 0
+            width: 50px
+            height: 50px
+            
+            img
+              width: 50px
+              height: 50px
+
+          &.picture-likes
+            right: 40px
+
+          .icon
+            margin-top: 10px
+
+          p
+            font-weight: 600
+            margin-top: 5px
+            font-size: 12px
+            transition: color .5s ease 0
+
+        &.clickable
+          .option:hover p
+            color: $darkGrey

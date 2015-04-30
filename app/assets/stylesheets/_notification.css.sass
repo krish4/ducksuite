@@ -1,0 +1,73 @@
+.notification
+  position: relative
+  padding: 10px
+  margin-bottom: 25px
+  color: #fff
+
+  p 
+    margin: 5px 40px
+
+  i 
+    position: absolute
+    left: 0
+    top: 0
+    margin: 0 16px
+    font-size: 26px
+    line-height: 48px
+
+.notification-success 
+  background: #6fb167
+.notification-error
+  background: #ed8381
+
+#check-new-pictures-notification
+  position: fixed
+  right: 30px
+  bottom: 30px
+  background-color: white
+  border-bottom: 2px solid $lightOrange
+  border-left: 2px solid $lightOrange
+  border-radius: 10px 0 10px 10px
+  height: 100px
+  width: 350px
+  line-height: 1.5em
+  padding: 15px 20px
+  text-align: center
+  z-index: 100
+
+  .close
+    position: absolute
+    top: 0
+    right: 3px
+    padding: 5px
+    cursor: pointer
+    transition: .5s transform ease
+
+    &:hover
+      transform: rotate(180deg)
+
+  button
+    border: none
+    background: none
+    border: 1px solid black
+    background-color: black
+    color: white
+    font-weight: bold
+    padding: 5px 20px
+    margin-top: 10px
+    border-radius: 5px
+    transition: .5s all ease
+
+  button:hover 
+    color: $lightOrange
+
+.closed-account-notification
+  background-color: #ed8381
+  padding: 15px
+  width: 800px
+  margin: 50px auto
+  color: white
+
+  i.fa-times-circle
+    float: left
+    margin-right: 10px

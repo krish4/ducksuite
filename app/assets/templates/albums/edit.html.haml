@@ -1,0 +1,52 @@
+.white-box
+  %form{name: "updateAlbumForm", novalidate: true}
+    .stripe-title 
+      %p Create New Album
+    %label Title
+    %input{:type => "text", "ng-model" => "album.title", required: true}/
+    .single-input
+      .input-symbol-box #
+      %label Add hashtags
+      %input.with-symbol{:type => "text", "ng-model" => "hashtag", "ng-enter" => "addHashtag(hashtag)"}/
+      .orange-button{"ng-click" => "addHashtag(hashtag)"}
+        %p ADD
+
+    .hashtags
+      .hashtag{"ng-repeat" => "hashtag in album.hashtags"}
+        %p # {{ hashtag }}
+        .remove-hashtag{"ng-click" => "removeHashtag(hashtag)"} x
+    
+    .stripe-title.greybg 
+      %p Filters
+      .open-close{"ng-click" => "changeFiltersVisibility()", "ng-switch" => "areFiltersVisible"}
+        .option{"ng-switch-when" => "false"}
+          %p Open
+          .arrow.open
+        .option{"ng-switch-when" => "true"}
+          %p Close
+          .arrow.close
+
+    .filters-box{"ng-show" => "areFiltersVisible"}
+      %label Location
+      %input{:type => "text", "ng-model" => "album.location"}/
+
+      .single-input.number-input
+        .input-symbol-box
+          %p min
+        %label Number of followers
+        %input.with-symbol{:type => "text", "ng-model" => "album.min_followers_number"}/
+
+      .single-input.number-input
+        .input-symbol-box
+          %p min
+        %label Number of likes
+        %input.with-symbol{:type => "text", "ng-model" => "album.min_likes_number"}/
+
+      .single-input.number-input
+        .input-symbol-box
+          %p min
+        %label Number of comments
+        %input.with-symbol{:type => "text", "ng-model" => "album.min_comments_number"}/
+
+    .center
+      %button.green-button{"ng-click" => "updateAlbum($event, updateAlbumForm)"} SAVE CHANGES

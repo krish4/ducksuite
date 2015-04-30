@@ -1,0 +1,34 @@
+$(scriptTag).before('<div id="ds-widget"><div id="slider"></div></div>');
+
+$("#ds-widget").after($("<div id='ds-loader'>Loading...</div>").fadeIn('slow'));
+
+$.getJSON(API_URL)
+  .done(function(data) {
+    $('#ds-loader').hide();
+    
+    $.each(data, function(index, item) {
+      $('#slider').append('<div class="image"><a class="ds-fancybox" href="' + item.images.standard_resolution.url + '"><img class="slick-slider-img" data-lazy="' + item.images.low_resolution.url + '" /></a></div>');
+    });
+    
+    $('#slider').slick({
+      lazyLoad: 'ondemand',
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 8000,
+      speed: 500,
+      prevArrow: '<div class="arrow slick-prev"></div>',
+      nextArrow: '<div class="arrow slick-next"></div>',
+      responsive: [
+        {
+          breakpoint: 1000,
+          settings: { slidesToShow: 3 }
+        }
+      ]
+    });
+    
+    $('.ds-fancybox').fancybox();
+  })
+  .fail(function() {
+    console.log('Ducksuite widget: Error while performing XHR request.');
+  });
